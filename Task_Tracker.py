@@ -74,7 +74,7 @@ class TaskViewer:
 
         print("\nCurrent tasks:")
         print("┌───┬──────────────────────────────────────┐")
-        print("│ # │ Task Description                    │")
+        print("│ # │ Task Description                             │")
         print("├───┼──────────────────────────────────────┤")
         for i, task in enumerate(self.tasks, 1):
             task_display = task['task'][:35] + "..." if len(
