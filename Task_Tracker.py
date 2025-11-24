@@ -1,5 +1,5 @@
 #Project II : Task tracker
-
+#Test
 import os
 import json
 import sys
@@ -74,11 +74,7 @@ class TaskViewer:
 
         print("\nCurrent tasks:")
         print("┌───┬──────────────────────────────────────┐")
-<<<<<<< HEAD
         print("│ # │ Task Description                     │")
-=======
-        print("│ # │ Task Description                             │")
->>>>>>> 87d05f29299084f801cbd7ab3098382e35649898
         print("├───┼──────────────────────────────────────┤")
         for i, task in enumerate(self.tasks, 1):
             task_display = task['task'][:35] + "..." if len(
