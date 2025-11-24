@@ -9,10 +9,10 @@ import random
 
 def clear_Screen():
     #Windows
-    """if os.name == 'nt':
-        os.system('cls')"""
+    if os.name == 'nt':
+        os.system('cls')
     #MacOS/Linux (Replit pakai linux)
-    os.system('clear')
+    #os.system('clear')
 
 
 def login(cnt):
@@ -74,7 +74,7 @@ class TaskViewer:
 
         print("\nCurrent tasks:")
         print("┌───┬──────────────────────────────────────┐")
-        print("│ # │ Task Description                    │")
+        print("│ # │ Task Description                     │")
         print("├───┼──────────────────────────────────────┤")
         for i, task in enumerate(self.tasks, 1):
             task_display = task['task'][:35] + "..." if len(
