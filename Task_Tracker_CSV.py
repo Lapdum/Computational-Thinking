@@ -98,6 +98,9 @@ class TaskViewer:
                 )
             if choice.lower() == 'cancel':
                 print("Deletion cancelled.")
+                
+                time.sleep(2)
+                clear_Screen()
                 return
 
             choice = int(choice)
@@ -114,6 +117,8 @@ class TaskViewer:
                     clear_Screen()
                 else:
                     print("Deletion cancelled.")
+                    
+                    time.sleep(2)
                     clear_Screen()
             else:
                 print("Invalid task number!")
