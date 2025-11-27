@@ -331,12 +331,16 @@ def timer():
             clear_Screen()
             print("[FOCUS MODE]")
             Timer.displayTimer(time_in_sec)
-            time_focus = int(
-                input("For how many minutes do you want to be focus? ")) * 60
-            time_break = int(
-                input(
-                    "For how many minutes do you want to have a break? ")) * 60
-            session = int(input("How many session? "))
+            time_focus_string = str(input("Insert focus time (minute:second): "))
+            time_focus_array = time_focus_string.split(":")
+            # time_focus_array will create [minute, second] array
+            time_focus = int(time_focus_array[0]) * 60 + int(time_focus_array[1])
+
+            time_break_string = str(input("Insert break time (minute:second): "))
+            time_break_array = time_break_string.split(":")
+            time_break = int(time_break_array[0]) * 60 + int(time_break_array[1])
+            
+            session = int(input("Insert session: "))
 
             clear_Screen()
             print("[FOCUS MODE]")
