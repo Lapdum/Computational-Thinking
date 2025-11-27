@@ -210,22 +210,37 @@ class Timer:
         chosen_message = message[current_message]
 
         while self.time_in_sec:
-            clear_Screen()
-            print(mode)
-            Timer.displayTimer(self.time_in_sec)
-            print(chosen_message)
+            try:
+                clear_Screen()
+                print(mode)
+                Timer.displayTimer(self.time_in_sec)
+                print(chosen_message)
 
-            time.sleep(1)
-            self.time_in_sec -= 1
+                time.sleep(1)
+                self.time_in_sec -= 1
 
-            message_cnt += 1
-            if message_cnt == 10:
-                current_message = random.randint(0, len(message) - 1)
-                chosen_message = message[current_message]
-                message_cnt = 0
+                message_cnt += 1
+                if message_cnt == 10:
+                    current_message = random.randint(0, len(message) - 1)
+                    chosen_message = message[current_message]
+                    message_cnt = 0
+            except KeyboardInterrupt:
+                while True:
+                    clear_Screen()
+                    print("Timer paused")
+                    print("What would you like to do?")
+                    print("1. Continue timer")
+                    print("2. Stop timer")
+                    operation = str(input("Input: "))
+                    if(operation == "1"):
+                        print("Timer will continue!")
+                        time.sleep(1)
+                        break
+                    else:
+                        timer()
 
-    def focusMode(self, message, mode):
-        mode = "[FOCUS MODE]"
+    def focusMode(self, message, increment, mode):
+        mode = f"[FOCUS MODE]: Session {increment + 1}"
         self.countdown(message, mode)
         clear_Screen()
         print(mode)
@@ -235,7 +250,7 @@ class Timer:
         time.sleep(3)
 
     def breakMode(self, message, increment, session, mode):
-        mode = "[BREAK MODE]"
+        mode = f"[BREAK MODE]: Session {increment + 1}"
         self.countdown(message, mode)
         clear_Screen()
         print(mode)
@@ -254,9 +269,9 @@ def timer():
     operation = ''
     message_focus = [
         "Keep going!", "You'll get there!", "Focus!", "Chase your dreams!",
-        "Don't give up!"
+        "Don't give up!", "Tip: Press Ctrl + C for pause"
     ]
-    message_break = ["Rest your mind!"]
+    message_break = ["Rest your mind!", "Tip: Press Ctrl + C for pause"]
     mode = ""
     while operation != 4:
         print("Welcome to Pomodoro Timer!")
@@ -275,13 +290,14 @@ def timer():
             print("[FOCUS MODE]")
             Timer.displayTimer(time_in_sec)
             operation = str(input("Would you like to start? (y/n): "))
+            print("Tip: Press Ctrl + C to pause the timer")
 
             if (operation == "y"):
                 session = 4
                 for i in range(session):
                     time_in_sec = 25 * 60
                     focus_timer = Timer(time_in_sec)
-                    focus_timer.focusMode(message_focus, mode)
+                    focus_timer.focusMode(message_focus, i, mode)
 
                     time_in_sec = 5 * 60
                     break_timer = Timer(time_in_sec)
@@ -296,12 +312,13 @@ def timer():
             print("[FOCUS MODE]")
             Timer.displayTimer(time_in_sec)
             operation = str(input("Would you like to start? (y/n): "))
+            print("Tip: Press Ctrl + C to pause the timer")
             if (operation == "y"):
                 session = 2
                 for i in range(session):
                     time_in_sec = 50 * 60
                     focus_timer = Timer(time_in_sec)
-                    focus_timer.focusMode(message_focus, mode)
+                    focus_timer.focusMode(message_focus, i, mode)
 
                     time_in_sec = 10 * 60
                     break_timer = Timer(time_in_sec)
@@ -325,11 +342,12 @@ def timer():
             print("[FOCUS MODE]")
             Timer.displayTimer(time_focus)
             operation = str(input("Would you like to start? (y/n): "))
+            print("Tip: Press Ctrl + C to pause the timer")
             if (operation == "y"):
                 for i in range(session):
                     time_in_sec = time_focus
                     focus_timer = Timer(time_in_sec)
-                    focus_timer.focusMode(message_focus, mode)
+                    focus_timer.focusMode(message_focus, i, mode)
 
                     time_in_sec = time_break
                     break_timer = Timer(time_in_sec)
