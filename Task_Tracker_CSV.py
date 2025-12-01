@@ -1,4 +1,4 @@
-#Project II : Task tracker (Using CSV)
+#Project II : Task tracker (Using JSON)
 import os
 import csv
 import sys
@@ -28,7 +28,7 @@ def login(cnt):
         print("Incorrect username or password!")
         cnt += 1
         clear_Screen()
-        login(cnt)
+        return login(cnt)
     else:
         print("Too many failed login attempts!")
         print("Shutting down TaskCommand...")
@@ -64,7 +64,6 @@ class TaskViewer:
             writer.writeheader()
             writer.writerows(self.tasks)
                 #print(f"Data successfully saved at {file}")
-        
 
     def add_task(self, task, deadline, status="Pending"):
         self.tasks.append({
@@ -72,11 +71,12 @@ class TaskViewer:
             "deadline": deadline,
             "status": status
         })
-        self.save_tasks()
 
     def delete_task(self):
         if not self.tasks:
             print("No tasks to delete!")
+            time.sleep(2)
+            clear_Screen()
             return
 
         print("\nCurrent tasks:")
@@ -108,15 +108,16 @@ class TaskViewer:
                     self.save_tasks()
                 else:
                     print("Deletion cancelled.")
-                    
             else:
                 print("Invalid task number!")
         except ValueError:
             print("Please enter a valid number!")
-            
+    
     def edit_task(self):
         if not self.tasks:
             print("No task to edit!")
+            time.sleep(2)
+            clear_Screen()
             return
         
         print("\nCurrent tasks:")
@@ -235,7 +236,7 @@ class TaskViewer:
                 
         except ValueError:
             print("Please enter a valid number!")
-
+        
     def create_table(self):
         if not self.tasks:
             return "No tasks available!"
@@ -277,6 +278,7 @@ def validate_date(deadline, date_format=("%d-%m-%Y")):
         return True,""
     except ValueError as e:
         return False, f"Invalid date format: {e}"
+    
 
 
 def task():
@@ -324,7 +326,7 @@ def task():
 
 
 class Timer:
-    
+
     def __init__(self, time_in_sec):
         self.time_in_sec = time_in_sec
 
@@ -394,15 +396,16 @@ class Timer:
             print("Congratulations! Now, take a long rest!")
         time.sleep(3)
 
+
 def timer():
     clear_Screen()
     time_in_sec = 0
     operation = ''
     message_focus = [
         "Keep going!", "You'll get there!", "Focus!", "Chase your dreams!",
-        "Don't give up!", "Tip: Press Ctrl + C for pause"
+        "Don't give up!", "Tip: Press Ctrl + C for pause!"
     ]
-    message_break = ["Rest your mind!", "Tip: Press Ctrl + C for pause"]
+    message_break = ["Rest your mind!", "Tip: Press Ctrl + C for pause!"]
     mode = ""
     while operation != 4:
         print("Welcome to Pomodoro Timer!")
@@ -421,7 +424,7 @@ def timer():
             print("[FOCUS MODE]")
             Timer.displayTimer(time_in_sec)
             operation = str(input("Would you like to start? (y/n): "))
-            print("Tip: Press Ctrl + C to pause the timer")
+            print("Tip: Press Ctrl + C for pause!")
 
             if (operation == "y"):
                 session = 4
@@ -443,7 +446,7 @@ def timer():
             print("[FOCUS MODE]")
             Timer.displayTimer(time_in_sec)
             operation = str(input("Would you like to start? (y/n): "))
-            print("Tip: Press Ctrl + C to pause the timer")
+            print("Tip: Press Ctrl + C for pause!")
             if (operation == "y"):
                 session = 2
                 for i in range(session):
@@ -461,23 +464,21 @@ def timer():
         elif (operation == 3):
             clear_Screen()
             print("[FOCUS MODE]")
-            Timer.displayTimer(time_in_sec)
             time_focus_string = str(input("Insert focus time (minute:second): "))
             time_focus_array = time_focus_string.split(":")
-            # time_focus_array will create [minute, second] array
             time_focus = int(time_focus_array[0]) * 60 + int(time_focus_array[1])
 
             time_break_string = str(input("Insert break time (minute:second): "))
             time_break_array = time_break_string.split(":")
             time_break = int(time_break_array[0]) * 60 + int(time_break_array[1])
-            
+
             session = int(input("Insert session: "))
 
             clear_Screen()
             print("[FOCUS MODE]")
             Timer.displayTimer(time_focus)
             operation = str(input("Would you like to start? (y/n): "))
-            print("Tip: Press Ctrl + C to pause the timer")
+            print("Tip: Press Ctrl + C to pause the timer!")
             if (operation == "y"):
                 for i in range(session):
                     time_in_sec = time_focus
