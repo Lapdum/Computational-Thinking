@@ -222,18 +222,12 @@ class TaskViewer:
 
                 self.save_tasks()
                 print("Changes saved successfully!")
-                time.sleep(2)
-                clear_Screen()
 
             else:
                 print("Invalid task number!")
-                time.sleep(2)
-                clear_Screen()
                 
         except ValueError:
             print("Please enter a valid number!")
-            time.sleep(2)
-            clear_Screen()
         
     def create_table(self):
         if not self.tasks:
