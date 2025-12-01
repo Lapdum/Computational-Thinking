@@ -1,11 +1,10 @@
-#Project II : Task tracker
-#Test
+#Project II : Task tracker (Using JSON)
 import os
 import json
 import sys
 import time
 import random
-
+from datetime import datetime
 
 def clear_Screen():
     #Windows
@@ -29,7 +28,7 @@ def login(cnt):
         print("Incorrect username or password!")
         cnt += 1
         clear_Screen()
-        login(cnt)
+        return login(cnt)
     else:
         print("Too many failed login attempts!")
         print("Shutting down TaskCommand...")
@@ -99,22 +98,143 @@ class TaskViewer:
                     deleted_task = self.tasks.pop(choice - 1)
                     print(f"✓ Deleted: {deleted_task['task']}")
                     self.save_tasks()
-
-                    time.sleep(2)
-                    clear_Screen()
                 else:
                     print("Deletion cancelled.")
-
-                    time.sleep(2)
-                    clear_Screen()
             else:
                 print("Invalid task number!")
-
-                time.sleep(2)
-                clear_Screen()
         except ValueError:
             print("Please enter a valid number!")
+    
+    def edit_task(self):
+        if not self.tasks:
+            print("No task to edit!")
+            time.sleep(2)
+            clear_Screen()
+            return
+        
+        print("\nCurrent tasks:")
+        task_width = 4
+        desc_width = 20
+        deadline_width = 10
+        status_width = 6
+        
+        for i, task in enumerate(self.tasks, 1):
+            desc_width = max(desc_width, len(task['task']))
+            status_width = max(status_width, len(task['status']))
+            
+        desc_width = min(desc_width, 35) + 2
+        status_width = min(status_width, 15) + 2
+        task_width = max(task_width, len(str(len(self.tasks)))) + 2
+        
+        desc_width = max(desc_width, len("Task Description"))
+        status_width = max(status_width, len("Status"))
+        
+        total_width = task_width + desc_width + deadline_width + status_width + 6
+        
+        print("┌" + "─" * task_width + "┬" + "─" * desc_width + "┬" + "─" * deadline_width + "┬" + "─" * status_width + "┐")
+        print(f"│ {'#':^{task_width-2}} │ {'Task Description':^{desc_width-2}} │ {'Deadline':^{deadline_width-2}} │ {'Status':^{status_width-2}} │")
+        print("├" + "─" * task_width + "┼" + "─" * desc_width + "┼" + "─" * deadline_width + "┼" + "─" * status_width + "┤")
+        
+        for i, task in enumerate(self.tasks, 1):
+            task_desc = task['task'][:desc_width-3] + "..." if len(task['task']) > desc_width-2 else task['task']
+            deadline = task['deadline'][:deadline_width-2]
+            status = task['status'][:status_width-3] + "..." if len(task['status']) > status_width-2 else task['status']
+        
+        print(f"│ {i:^{task_width-2}} │ {task_desc:<{desc_width-2}} │ {deadline:^{deadline_width-2}} │ {status:^{status_width-2}} │")
+    
+        print("└" + "─" * task_width + "┴" + "─" * desc_width + "┴" + "─" * deadline_width + "┴" + "─" * status_width + "┘")
+        
+        try:
+            choice = input("Enter task number to edit (or 'cancel' to abort): ").strip()
+            if choice.lower() == 'cancel':
+                print("Edit cancelled.")
+                return
+            
+            choice = int(choice)
+            if 1 <= choice <= len(self.tasks):
+                task_to_edit = self.tasks[choice - 1]
+                print(f"\nEditing Task: {task_to_edit['task']}")
+                print(f"Current Deadline: {task_to_edit['deadline']}")
+                print(f"Current Status: {task_to_edit['status']}")
+                print("\nWhat would you like to edit?")
+                print("1. Task name")
+                print("2. Deadline")
+                print("3. Status")
+                print("4. All fields")
+                print("5. Cancel")
 
+                edit_choice = input("Choose option (1-5): ").strip()
+
+                if edit_choice == '1':
+                    new_task = input("Enter new task name: ").strip()
+                    if new_task:
+                        task_to_edit['task'] = new_task
+                        print("✓ Task name updated!")
+                    else:
+                        print("Task name cannot be empty!")
+
+                elif edit_choice == '2':
+                    is_valid = False
+                    while not is_valid:
+                        new_deadline = input("Enter new deadline (DD-MM-YYYY): ").strip()
+                        is_valid, message = validate_date(new_deadline)
+                        if is_valid:
+                            task_to_edit['deadline'] = new_deadline
+                            print("✓ Deadline updated!")
+                        else:
+                            print(f"{message}. Please try again!")
+
+                elif edit_choice == '3':
+                    new_status = input("Enter new status: ").strip()
+                    if new_status:
+                        task_to_edit['status'] = new_status
+                        print("✓ Status updated!")
+                    else:
+                        print("Status cannot be empty!")
+
+                elif edit_choice == '4':
+                    # Edit all fields
+                    new_task = input("Enter new task name: ").strip()
+                    if new_task:
+                        task_to_edit['task'] = new_task
+                    
+                    is_valid = False
+                    while not is_valid:
+                        new_deadline = input("Enter new deadline (DD-MM-YYYY): ").strip()
+                        is_valid, message = validate_date(new_deadline)
+                        if is_valid:
+                            task_to_edit['deadline'] = new_deadline
+                        else:
+                            print(f"{message}. Please try again!")
+                    
+                    new_status = input("Enter new status: ").strip()
+                    if new_status:
+                        task_to_edit['status'] = new_status
+                    
+                    print("✓ All fields updated!")
+
+                elif edit_choice == '5':
+                    print("Edit cancelled.")
+                    return
+                else:
+                    print("Invalid option!")
+                    return
+
+                self.save_tasks()
+                print("Changes saved successfully!")
+                time.sleep(2)
+                clear_Screen()
+
+            else:
+                print("Invalid task number!")
+                time.sleep(2)
+                clear_Screen()
+                
+        except ValueError:
+            print("Please enter a valid number!")
+            time.sleep(2)
+            clear_Screen()
+        
     def create_table(self):
         if not self.tasks:
             return "No tasks available!"
@@ -149,6 +269,14 @@ class TaskViewer:
 
     def display_tasks(self):
         print(self.create_table())
+        
+def validate_date(deadline, date_format=("%d-%m-%Y")):
+    try:
+        datetime.strptime(deadline, date_format)
+        return True,""
+    except ValueError as e:
+        return False, f"Invalid date format: {e}"
+    
 
 
 def task():
@@ -167,9 +295,14 @@ def task():
 
         if operation == 1:
             clear_Screen()
+            is_valid = False
             print("Please enter the task details!")
             task = input("Task name : ")
-            deadline = input("Task deadline : ")
+            while is_valid != True:
+                deadline = input("Task deadline (DD-MM-YYYY): ")
+                is_valid, message = validate_date(deadline)
+                if is_valid != True:
+                    print(f"{message}. Please input it correctly!")
             status = input("Current status : ")
 
             tracker.add_task(task, deadline, status)
@@ -178,6 +311,13 @@ def task():
         elif operation == 2:
             clear_Screen()
             tracker.delete_task()
+            time.sleep(2)
+            clear_Screen()
+        elif operation == 3:
+            clear_Screen()
+            tracker.edit_task()
+            time.sleep(2)
+            clear_Screen()
 
     menu()
     return
