@@ -489,27 +489,126 @@ def timer():
 
 
 class JournalTracker:
-    pass
 
+    def __init__(self, filename="journals.json"):
+        self.filename = filename
+        self.journals = self.load_journals()
+
+    def load_journals(self):
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, 'r') as file:
+                    return json.load(file)
+            except (json.JSONDecodeError, FileNotFoundError):
+                return []
+        return []
+
+    def save_journals(self):
+        with open(self.filename, 'w') as file:
+            json.dump(self.journals, file, indent=4)
+
+    def add_journal(self, title, entry):
+        self.journals.append({
+            "title": title,
+            "entry": entry
+        })
+
+    def read_journal(self, index):
+        journal = self.journals[index]
+
+        title_width = len(journal["title"])
+
+        print(journal["title"])
+        print("─" * title_width)
+
+        input(f"\n{journal["entry"]}")
+
+    # TODO: INPUT VALIDATION
+    def delete_journal(self, index):
+        journal = self.journals
+
+        journal.pop(index)
+        self.save_journals()
+
+    def create_table(self):
+        if not self.journals:
+            return ""
+        
+        title_width = max(len(journal["title"]) for journal in self.journals)
+        number_width = max(len(journal) for journal in self.journals)
+
+        number_width = max(number_width, len("No.")) + 2
+        title_width = max(title_width, len("Title")) + 2
+
+        table = []
+
+        top_border = "┌" + "─" * number_width + "┬" + "─" * title_width + "┐"
+        table.append(top_border)
+
+        header = f"│{'No.':^{number_width}}│{'Journal':^{title_width}}│"
+        table.append(header)
+
+        separator = "├" + "─" * number_width + "┼" + "─" * title_width + "┤"
+        table.append(separator)
+
+        for index, journal in enumerate(self.journals):
+            row = f"│{str(index + 1):^{number_width}}│{journal['title']:<{title_width}}│"
+            table.append(row)
+
+        bottom_border = "└" + "─" * number_width + "┴" + "─" * title_width + "┘"
+        table.append(bottom_border)
+
+        return "\n".join(table)
+        
+    def display_journals(self):
+        print(self.create_table())
+        
 
 def journal():
-    clear_Screen()
-    print("Welcome to Journal!")
-    print("What would you like to do today?")
-    print("1. Write a new journal")
-    print("2. Read your old journal")
-    print("3. Edit your old journal")
-    print("4. Back to menu")
-    operation = int(input("Input : "))
+    tracker = JournalTracker()
+    operation = ''
 
-    if operation == 1:
-        pass
-    elif operation == 2:
-        pass
-    elif operation == 3:
-        pass
-    elif operation == 4:
-        menu()
+    while (operation != 5):
+        clear_Screen()
+        print("Welcome to Journal!")
+        tracker.display_journals()
+        print("What would you like to do today?")
+        print("Task Commands: ")
+        print("1. Write a new journal")
+        print("2. Read your old journal")
+        print("3. Delete your old journal")
+        print("4. Edit your old journal")
+        print("5. Back to menu")
+        operation = int(input("Input : "))
+
+        if operation == 1:
+            clear_Screen()
+
+            print("Please enter the journal details!")
+            title = input("Journal title : ")                
+            entry = input("New entry : ")
+
+            tracker.add_journal(title, entry)
+            tracker.save_journals()
+            clear_Screen()
+        elif operation == 2:
+            clear_Screen()
+            index = int(input("Journal number : "))
+
+            clear_Screen()
+            tracker.read_journal(index - 1)
+        elif operation == 3:
+            clear_Screen()
+            index = int(input("Journal number : "))
+
+            clear_Screen()
+            tracker.delete_journal(index - 1)
+        elif operation == 4:
+            pass
+
+
+    menu()
+    return
 
 
 def menu():
