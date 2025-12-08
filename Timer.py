@@ -1,5 +1,6 @@
 import time
 import random
+from module import length
 from clear_Screen import Clear_Screen
 
 
@@ -12,13 +13,13 @@ class Timer:
     def displayTimer(time_in_sec):
         minute, second = divmod(time_in_sec, 60)
         timer = '{:02d}:{:02d}'.format(minute, second)
-        print("┌" + "─" * (len(timer) + 2) + "┐")
+        print("┌" + "─" * (length(timer) + 2) + "┐")
         print(f"│ {timer} │")
-        print("└" + "─" * (len(timer) + 2) + "┘")
+        print("└" + "─" * (length(timer) + 2) + "┘")
 
     def countdown(self, message, mode):
         message_cnt = 0
-        current_message = random.randint(0, len(message) - 1)
+        current_message = random.randint(0, length(message) - 1)
         chosen_message = message[current_message]
 
         while self.time_in_sec:
@@ -33,7 +34,7 @@ class Timer:
 
                 message_cnt += 1
                 if message_cnt == 10:
-                    current_message = random.randint(0, len(message) - 1)
+                    current_message = random.randint(0, length(message) - 1)
                     chosen_message = message[current_message]
                     message_cnt = 0
             except KeyboardInterrupt:
@@ -143,12 +144,14 @@ def timer():
         elif (operation == 3):
             Clear_Screen()
             print("[FOCUS MODE]")
-            time_focus_string = str(input("Insert focus time (minute:second): "))
-            time_focus_array = time_focus_string.split(":")
+            time_focus_array = ['' for i in range (2)]
+            time_focus_array[0] = input("Insert focus minutes: ")
+            time_focus_array[1] = input("Inser focus seconds: ")
             time_focus = int(time_focus_array[0]) * 60 + int(time_focus_array[1])
 
-            time_break_string = str(input("Insert break time (minute:second): "))
-            time_break_array = time_break_string.split(":")
+            time_break_array = ['' for i in range (2)]
+            time_break_array[0] = input("Insert break minutes: ")
+            time_break_array[1] = input("Insert break seconds: ")
             time_break = int(time_break_array[0]) * 60 + int(time_break_array[1])
 
             session = int(input("Insert session: "))

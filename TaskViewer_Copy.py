@@ -109,9 +109,9 @@ class TaskViewer:
         print("├" + "─" * task_width + "┼" + "─" * desc_width + "┼" + "─" * deadline_width + "┼" + "─" * status_width + "┤")
         
         for i, task in enumerate(self.tasks, 1):
-            task_desc = task['task'][:desc_width-3] + "..." if len(task['task']) > desc_width-2 else task['task']
+            task_desc = task['task'][:desc_width-6] + "..." if len(task['task']) > desc_width-2 else task['task']
             deadline = task['deadline'][:deadline_width-2]
-            status = task['status'][:status_width-3] + "..." if len(task['status']) > status_width-2 else task['status']
+            status = task['status'][:status_width-6] + "..." if len(task['status']) > status_width-2 else task['status']
         
             print(f"│ {i:^{task_width-2}} │ {task_desc:<{desc_width-2}} │ {deadline:^{deadline_width-2}} │ {status:^{status_width-2}} │")
     
