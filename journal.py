@@ -1,0 +1,2 @@
+def Journal():
+    pass
