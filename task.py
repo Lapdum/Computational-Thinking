@@ -1,12 +1,11 @@
 import time
 from clear_Screen import Clear_Screen
-#from TaskViewer import taskViewer
-from TaskViewer_Copy import TaskViewer
+from TaskViewer import taskViewer
 from validate_date import validate_Date
 
 def Task():
     Clear_Screen()
-    tracker = TaskViewer()
+    tracker = taskViewer()
     operation = ''
     while operation != 4:
         print("Welcome to Tasks!")
