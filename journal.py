@@ -30,13 +30,41 @@ def Journal():
             Clear_Screen()
         elif operation == 2:
             Clear_Screen()
-            index = int(input("Journal number : "))
+
+            journal_count = tracker.count()
+
+            if (journal_count <= 0):
+                input("There are no journal available!")
+                Journal()
+
+            success = False
+            
+            while not success:
+                index = int(input("Journal number : "))
+                if (index > 0) and (index <= journal_count):
+                    success = True
+                else:
+                    print(f"Please pick a number between 1 and {journal_count}!")
 
             Clear_Screen()
             tracker.read_journal(index - 1)
         elif operation == 3:
             Clear_Screen()
-            index = int(input("Journal number : "))
+
+            journal_count = tracker.count()
+
+            if (journal_count <= 0):
+                input("There are no journal available!")
+                Journal()
+
+            success = False
+            
+            while not success:
+                index = int(input("Journal number : "))
+                if (index > 0) and (index <= journal_count):
+                    success = True
+                else:
+                    print(f"Please pick a number between 1 and {journal_count}!")
 
             Clear_Screen()
             tracker.delete_journal(index - 1)
