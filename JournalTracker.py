@@ -48,9 +48,6 @@ class Journaltracker:
         if not self.journals:
             return ""
         
-        #title_width = max(len(journal["title"]) for journal in self.journals)
-        #number_width = max(len(journal) for journal in self.journals)
-        
         title_width = find_max_Journal(self.journals)
         number_width = number_task(self.journals)
         
@@ -73,3 +70,7 @@ class Journaltracker:
 
         bottom_border = "└" + "─" * number_width + "┴" + "─" * title_width + "┘"
         print(bottom_border)
+
+    def count(self):
+        journal = self.journals
+        return length(journal)
