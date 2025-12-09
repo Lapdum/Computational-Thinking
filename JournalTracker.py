@@ -1,6 +1,6 @@
 import os
 import json
-from module import length, Maximum, find_max_Journal, number_task
+from module import length, Maximum, find_max_Journal, number_task, Pop
 
 class Journaltracker:
 
@@ -43,7 +43,7 @@ class Journaltracker:
         confirmation = input(f"Are you sure you want to delete journal with the title \"{journal[index]["title"]}\" (Y/N)? ")
 
         if  confirmation  == "Y" or confirmation == "y":
-            journal.pop(index)
+            self.journals = Pop(journal, index)
             self.save_journals()
 
     def display_journals(self):
@@ -52,7 +52,6 @@ class Journaltracker:
         
         title_width = find_max_Journal(self.journals)
         number_width = number_task(self.journals)
-        
 
         number_width = int(Maximum(number_width, len("No."))) + 2
         title_width = int(Maximum(title_width, len("Title"))) + 2
