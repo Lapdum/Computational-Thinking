@@ -65,3 +65,7 @@ def Pop(array, index):
             offset = True
 
     return popped_array
+
+def Append(array, value):
+    array = array + [value]
+    return array
