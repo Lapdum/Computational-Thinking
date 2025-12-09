@@ -1,6 +1,7 @@
 import os
 import json
 from module import length, Maximum, find_max_Journal, number_task, Pop, Append
+import keyboard
 
 class Journaltracker:
 
@@ -71,6 +72,14 @@ class Journaltracker:
 
         bottom_border = "└" + "─" * number_width + "┴" + "─" * title_width + "┘"
         print(bottom_border)
+
+    def edit_journal(self, index):
+        journal = self.journals
+
+        keyboard.write(journal[index]["entry"])
+        self.journals[index]["entry"] = input("New entry: ")
+
+        self.save_journals()
 
     def count(self):
         journal = self.journals
