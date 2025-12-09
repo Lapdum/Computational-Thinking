@@ -52,11 +52,11 @@ def number_task(tasks):
     return cnt
 
 def Pop(array, index):
-    popped_array = [i for i in range(len(array) - 1)]
+    popped_array = [i for i in range(length(array) - 1)]
 
     offset = False
 
-    for i in range(len(array)):
+    for i in range(length(array)):
         if (i != index) and (not offset):
             popped_array[i] = array[i]
         elif offset:
