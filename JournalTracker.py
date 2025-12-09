@@ -1,6 +1,6 @@
 import os
 import json
-from module import length, Maximum, find_max_Journal, number_task, Pop
+from module import length, Maximum, find_max_Journal, number_task, Pop, Append
 
 class Journaltracker:
 
@@ -22,10 +22,10 @@ class Journaltracker:
             json.dump(self.journals, file, indent=4)
 
     def add_journal(self, title, entry):
-        self.journals.append({
+        self.journals = Append(self.journals, ({
             "title": title,
             "entry": entry
-        })
+        }))
 
     def read_journal(self, index):
         journal = self.journals[index]
