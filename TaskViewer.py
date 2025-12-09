@@ -7,7 +7,7 @@ class taskViewer:
     def __init__(self, filename = "Tasks.csv"):
         self.filename = filename
         self.tasks = self.load_task()
-        print(f"Success with {filename}")
+        #print(f"Success with {filename}")
         
     def load_task(self):
         tasks = []
@@ -18,7 +18,7 @@ class taskViewer:
                     reader = csv.DictReader(file)
                     tasks = [row for row in reader]
             except(csv.Error, FileNotFoundError):
-                print("Error on load_tasks")
+                #print("Error on load_tasks")
                 return []
         return tasks
     
@@ -29,7 +29,7 @@ class taskViewer:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(self.tasks)
-            print("Data successfully saved!")
+            #print("Data successfully saved!")
             
     def add_task(self, task, deadline, status):
         self.tasks = [*self.tasks, {
@@ -38,7 +38,7 @@ class taskViewer:
             'status' : status
         }]
         
-        print("Successfully added a new task!")
+        #print("Successfully added a new task!")
         
     def delete_task(self):
         if not self.tasks:
@@ -61,7 +61,8 @@ class taskViewer:
         try:
             choice = input("Enter task number to delete (or 'cancel' to abort): ")
             if choice.lower() == 'cancel':
-                return "Deletion cancelled."
+                print("Deletion cancelled.")
+                return
             
             choice = int(choice)
             if 1 <= choice <= number_task(self.tasks):
@@ -72,13 +73,15 @@ class taskViewer:
                     task_to_delete = self.tasks[choice - 1]
                     self.tasks = [n for i, n in enumerate(self.tasks) if i != choice - 1]
                     self.save_tasks()
-                    return f"Deleted: {task_to_delete['task']}"
+                    print(f"Deleted: {task_to_delete['task']}")
+                    return
                 else:
-                    return "Deletion cancelled."
+                    print("Deletion cancelled.")
+                    return
             else:
-                return "Invalid task number!"
+                print("Invalid task number!")
         except:
-            return "Please enter a valid number!"
+            print("Please enter a valid number!")
         
     def edit_task(self):
         if not self.tasks:
@@ -120,7 +123,7 @@ class taskViewer:
         try:
             choice = input("Enter task number to edit (or 'cancel' to abort): ")
             if choice.lower() == "cancel":
-                return "Edit cancelled."
+                print("Edit cancelled.")
             
             choice = int(choice)
             if 1 <= choice <= number_task(self.tasks):

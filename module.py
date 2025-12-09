@@ -27,6 +27,17 @@ def find_max_lengths(tasks):
             max_status_len = Maximum(max_status_len, length(str(task_dict["status"])))
     #print(max_task_len, max_deadline_len, max_status_len)
     return max_task_len, max_deadline_len, max_status_len
+
+def find_max_Journal(journal):
+    if not journal:
+        return 0
+    
+    max_jour_len = 0
+    for jour in journal:
+        if "title" in jour:
+            max_jour_len = Maximum(max_jour_len, length(str(jour["title"])))
+    
+    return max_jour_len
                 
 def length(str):
     cnt = 0
