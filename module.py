@@ -50,3 +50,18 @@ def number_task(tasks):
     for _ in tasks:
         cnt += 1
     return cnt
+
+def Pop(array, index):
+    popped_array = [i for i in range(len(array) - 1)]
+
+    offset = False
+
+    for i in range(len(array)):
+        if (i != index) and (not offset):
+            popped_array[i] = array[i]
+        elif offset:
+            popped_array[i - 1] = array[i]
+        else:
+            offset = True
+
+    return popped_array
