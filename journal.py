@@ -69,7 +69,25 @@ def Journal():
             Clear_Screen()
             tracker.delete_journal(index - 1)
         elif operation == 4:
-            pass
+            Clear_Screen()
+
+            journal_count = tracker.count()
+
+            if (journal_count <= 0):
+                input("There are no journal available!")
+                Journal()
+
+            success = False
+            
+            while not success:
+                index = int(input("Journal number : "))
+                if (index > 0) and (index <= journal_count):
+                    success = True
+                else:
+                    print(f"Please pick a number between 1 and {journal_count}!")
+
+            Clear_Screen()
+            tracker.edit_journal(index - 1)
 
     from menu import Menu
     Menu()
