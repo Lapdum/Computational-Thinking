@@ -37,12 +37,14 @@ class Journaltracker:
 
         input(f"\n{journal["entry"]}")
 
-    # TODO: INPUT VALIDATION
     def delete_journal(self, index):
         journal = self.journals
 
-        journal.pop(index)
-        self.save_journals()
+        confirmation = input(f"Are you sure you want to delete journal with the title \"{journal[index]["title"]}\" (Y/N)? ")
+
+        if  confirmation  == "Y" or confirmation == "y":
+            journal.pop(index)
+            self.save_journals()
 
     def display_journals(self):
         if not self.journals:
