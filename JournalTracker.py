@@ -3,7 +3,7 @@ import json
 from module import length, Maximum, find_max_Journal, number_task, Pop, Append
 import keyboard
 
-class Journaltracker:
+class JournalTracker:
 
     def __init__(self, filename="journals.json"):
         self.filename = filename

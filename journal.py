@@ -1,8 +1,8 @@
-from JournalTracker import Journaltracker
+from JournalTracker import JournalTracker
 from clear_Screen import Clear_Screen
 
 def Journal():
-    tracker = Journaltracker()
+    tracker = JournalTracker()
     operation = ''
 
     while (operation != 5):
