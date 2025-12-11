@@ -54,8 +54,8 @@ class JournalTracker:
         title_width = find_max_Journal(self.journals)
         number_width = number_task(self.journals)
 
-        number_width = int(Maximum(number_width, len("No."))) + 2
-        title_width = int(Maximum(title_width, len("Title"))) + 2
+        number_width = int(Maximum(number_width, length("No."))) + 2
+        title_width = int(Maximum(title_width, length("Title"))) + 2
 
         top_border = "┌" + "─" * number_width + "┬" + "─" * title_width + "┐"
         print(top_border)
